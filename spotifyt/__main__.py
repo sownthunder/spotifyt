@@ -15,7 +15,7 @@ os.system("clear")
 
 #Spotify API credentials ("Client ID", "Client Secret")
 #Aqui puedes conseguir tus credenciales: https://developer.spotify.com/my-applications
-client_credentials_manager = SpotifyClientCredentials("2e51cd035c754f138d0a18b72e69d2b3", "c242f72478c84e4aac07018307780905")
+client_credentials_manager = SpotifyClientCredentials("", "")
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 #----------
