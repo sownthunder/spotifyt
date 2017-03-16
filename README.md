@@ -1,2 +1,2 @@
 # spotifyt
-Searches and downloads videos from youtube, using a spotify playlist as a query.
+Download songs from your Spotify playlists 
