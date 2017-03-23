@@ -13,7 +13,7 @@ import time
 #Retieves data from spotify playlist given playlist id & user witch comes form uri
 def get_playlist_tracks(uri):
     #Spotify api auth
-    client_credentials_manager = SpotifyClientCredentials("2e51cd035c754f138d0a18b72e69d2b3", "c242f72478c84e4aac07018307780905")
+    client_credentials_manager = SpotifyClientCredentials("", "")
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     #Username and id
