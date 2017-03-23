@@ -102,6 +102,6 @@ if __name__ == '__main__':
             path = sys.argv[2]
     else:
         uri = input('sportify URI_')
-    #ista_canciones = humanizer(get_playlist_tracks(uri))
+    lista_canciones = humanizer(get_playlist_tracks(uri))
     progressive_downloader(lista_canciones, path)
     print('\n\n')
