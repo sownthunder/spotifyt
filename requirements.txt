@@ -1,4 +1,4 @@
-appjar
+appjar (0.52)
 appdirs (1.4.3)
 packaging (16.8)
 pip (9.0.1)
