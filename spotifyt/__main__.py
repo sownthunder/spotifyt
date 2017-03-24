@@ -1,5 +1,7 @@
 from spotipy.oauth2 import SpotifyClientCredentials
 from tqdm import tqdm
+from appJar import gui
+from threading import Thread
 
 import requests
 import spotipy
@@ -9,6 +11,43 @@ import urllib.parse
 import re
 import os
 import time
+
+import queue
+
+
+import tkinter as tk
+
+path = './Descargas/'
+is_downloading = False
+
+
+def hit_descarga(btn):
+    root = tk.Tk()
+    root.withdraw()
+    uri = root.clipboard_get()
+    #spotify:user:luastan:playlist:1eQDpeUFUe3LvxruExM53w
+    if uri[:7] == 'spotify':
+        path = app.directoryBox() + '/'
+        print(path)
+        status_downloading()
+        lista_canciones = humanizer(get_playlist_tracks(uri))
+        thread = Thread(target = progressive_downloader, args = (lista_canciones, path))
+        thread.start()
+        #progressive_downloader(lista_canciones,path)
+
+    else:
+        app.infoBox('Copia la direccion URI', 'Abre Spotify. En las opciones para compartir una playlist deberías encontrar la funcion: "Copiar URI de Spotify"')
+
+
+def status_downloading():
+    app.hideButton("Descargar !")
+    app.showMeter("progress")
+
+def status_patience():
+    app.hideMeter("progress")
+    app.showButton("Descargar !")
+
+
 
 #Retieves data from spotify playlist given playlist id & user witch comes form uri
 def get_playlist_tracks(uri):
@@ -39,13 +78,17 @@ def humanizer(results):
         saltimbanquis=""
         for m in range(0,len(results[i]['track']['artists'])):
             saltimbanquis = saltimbanquis + " " + results[i]['track']['artists'][m]['name']
-        canciones.append(name + saltimbanquis)
-
+        conjunto = name + saltimbanquis
+        conjunto = conjunto.replace("/",'')
+        conjunto = conjunto.replace("\\",'')
+        canciones.append(conjunto)
         #
     return canciones
 
 def print_status(current, total):
-    print('\rDescargando cancion %s de %s' % (current, total), sep=' ', end=50*' '+'\r', flush=True)
+    percentage = 100*current/total
+    #app.setMeter("progress", percentage, text=str(percentage)[:5] + "%")
+    app.setMeter("progress", percentage, str(current) + "/" + str(total))
 
 
 #Searches stuff in youtube. Returns first search result in youtubeinmp3 direct link format
@@ -74,34 +117,56 @@ def downloader(song_names, links_youtubeinmp3, path):
                     f.write(data.read())
 
 
-
 def progressive_downloader(song_names, path): #This function merges the link generator with the downloader.
     is_bbc = len(song_names)                  #I want to add a continue progress thing but mayb later
+    is_downloading = True
     for i in range(is_bbc):
         filename = path + song_names[i] + '.mp3'
-
-        print_status(i + 1, is_bbc)
-
+        print_status(i, is_bbc)
         if not os.path.isfile(filename):
             downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older versions i used to do this in 2 steps
             statinfo = os.stat(filename)
             #random im not a direct link anymore bullshic bypass
-            while statinfo.st_size < 1000000: #Sometimes youtubeinmp3 has the wonderfull idea of changing direct links to randomnn webpages
+            timeout = 0
+            while statinfo.st_size < 1000000 and timeout < 10: #Sometimes youtubeinmp3 has the wonderfull idea of changing direct links to randomnn webpages
+                #time.sleep(5)
+                print('Redownloading: ' + song_names[i])
                 os.remove(filename)
+                timeout += 1
                 downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older versions i used to do this in 2 steps
                 statinfo = os.stat(filename)
+            if timeout == 10:
+                os.remove(filename)
+                print('No se pudo descargar: ' + song_names[i])
+    status_patience()
+    app.infoBox("Descarga completada !", "Se completó la descarga con éxito")
+
+app = gui()
+app.setIcon("icon.gif")
+app.setResizable(canResize=False)
+app.setTitle('Spotifyt - by Luastan')
+app.setGuiPadding(0,0)
+app.setFont(15, font="Oswald")
+app.setBg('black')
+app.addImage("title", "title_low.gif",0,0,2)
+app.addMeter("progress",1,0,2)
+app.hideMeter("progress")
+app.setMeterBg("progress","black")
+app.setMeterPadding("progress", 0, 0)
+app.setMeterFill("progress", "purple")
+app.setMeterFg("progress", "white")
+app.addButton("Descargar !", hit_descarga, 1, 0)
+app.setButtonBg("Descargar !", 'black')
+app.setButtonSticky("Descargar !","both")
+app.setButtonFg("Descargar !", "white")
+app.go()
 
 
-#www.youtubeinmp3.com/fetch/?video=https://www.youtube.com/watch?v=Zv1QV6lrc_Y
-if __name__ == '__main__':
-    #Actual program
-    path = "./Descargas/"
-    if len(sys.argv)>1:
-        uri = sys.argv[1]
-        if len(sys.argv)>2:
-            path = sys.argv[2]
-    else:
-        uri = input('sportify URI_')
-    lista_canciones = humanizer(get_playlist_tracks(uri))
-    progressive_downloader(lista_canciones, path)
-    print('\n\n')
+if __name__ ==" __main__":
+
+    print('pene')
+    azul = 1+1
+
+
+
+#pan
