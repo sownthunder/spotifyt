@@ -11,43 +11,56 @@ import urllib.parse
 import re
 import os
 import time
-
 import queue
-
+import webbrowser
 
 import tkinter as tk
+import tkinter.simpledialog
 
-path = './Descargas/'
-is_downloading = False
+#Global variables
+path = ''
+retry_songs = []
+wrong_link = False
 
-
+def is_updated():
+    readme_gh = requests.get('https://raw.githubusercontent.com/luastan/spotifyt/master/README.md')
+    if not readme_gh.text[53:56] == '0.5':
+        if syt.okBox('New Version', "Hay una nueva version de Spotifyt disponible. Desea descargarla?"):
+            webbrowser.open_new_tab('https://github.com/luastan/spotifyt/releases')
+            sys.exit(0)
+#spotify:user:luastan:playlist:2jcA2rX8MNpUtDQ5EX8nPw
 def hit_descarga(btn):
-    root = tk.Tk()
-    root.withdraw()
-    uri = root.clipboard_get()
-    #spotify:user:luastan:playlist:1eQDpeUFUe3LvxruExM53w
-    if uri[:7] == 'spotify':
-        path = app.directoryBox() + '/'
-        print(path)
-        status_downloading()
-        lista_canciones = humanizer(get_playlist_tracks(uri))
+    uri = 'notspotify:user:auser:aplaylist:code1eQDpeUFUe3LvxruExM53w'
+    try:
+        root = tk.Tk()
+        root.withdraw()
+        uri = root.clipboard_get()
+    except:
+        syt.infoBox('Copia la direccion URI', 'Abre Spotify y copia el enlace de la playlist que quieres descargar')
+        return
+
+    if uri[:29] == 'https://open.spotify.com/user' or uri[:13] == 'spotify:user:':
+        path = syt.directoryBox() + '/'
+        bypass_assholes = get_playlist_tracks(uri) #This is a quick fix keeping people from trying to download an invalid link
+
+        if wrong_link:
+            syt.infoBox('Copia la direccion URI', 'Abre Spotify y copia el enlace de la playlist que quieres descargar')
+            return
+
+        lista_canciones = humanizer(bypass_assholes)
         thread = Thread(target = progressive_downloader, args = (lista_canciones, path))
         thread.start()
-        #progressive_downloader(lista_canciones,path)
 
     else:
-        app.infoBox('Copia la direccion URI', 'Abre Spotify. En las opciones para compartir una playlist deberías encontrar la funcion: "Copiar URI de Spotify"')
-
+        syt.infoBox('Copia la direccion URI', 'Abre Spotify y copia el enlace de la playlist que quieres descargar')
 
 def status_downloading():
-    app.hideButton("Descargar !")
-    app.showMeter("progress")
+    syt.hideButton("Descargar !")
+    syt.showMeter("progress")
 
 def status_patience():
-    app.hideMeter("progress")
-    app.showButton("Descargar !")
-
-
+    syt.hideMeter("progress")
+    syt.showButton("Descargar !")
 
 #Retieves data from spotify playlist given playlist id & user witch comes form uri
 def get_playlist_tracks(uri):
@@ -55,12 +68,25 @@ def get_playlist_tracks(uri):
     client_credentials_manager = SpotifyClientCredentials("", "")
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-    #Username and id
-    username = uri.split(':')[2]
-    playlist_id = uri.split(':')[4]
+    #Username and id 2jcA2rX8MNpUtDQ5EX8nPw
+    #spotify:user:luastan:playlist:2jcA2rX8MNpUtDQ5EX8nPw
 
-    #Retrieve data from playlist
-    results = sp.user_playlist_tracks(username,playlist_id)
+    if uri[:29] == 'https://open.spotify.com/user':
+        username = uri.split('/')[4]
+    else:
+        username = uri.split(':'[2])
+
+    playlist_id = uri[-22:]
+    wrong_link = False
+    print(username)
+    print(playlist_id)
+    try:
+        results = sp.user_playlist_tracks(username, playlist_id)
+    except:
+        wrong_link = True
+        return []
+
+        #Retrieve data from playlist
     tracks = results['items']
 
     #THis loop is required to bypass 100 track per list limit
@@ -87,9 +113,8 @@ def humanizer(results):
 
 def print_status(current, total):
     percentage = 100*current/total
-    #app.setMeter("progress", percentage, text=str(percentage)[:5] + "%")
-    app.setMeter("progress", percentage, str(current) + "/" + str(total))
-
+    #syt.setMeter("progress", percentage, text=str(percentage)[:5] + "%")
+    syt.setMeter("progress", percentage, str(current) + "/" + str(total))
 
 #Searches stuff in youtube. Returns first search result in youtubeinmp3 direct link format
 # WHy only first search result what if it is a music video¿??¿?¿?¿ - > Search Forbbiden voices MArtin Garrix
@@ -102,9 +127,7 @@ def yt_in_mp3_generator(canciones):
         html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
         enlasitos = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
         links.append("https://www.youtubeinmp3.com/fetch/?video=https://www.youtube.com/watch?v=" + enlasitos[0])
-
     return links
-
 
 #FUnction name is self-explanatory
 def downloader(song_names, links_youtubeinmp3, path):
@@ -116,57 +139,68 @@ def downloader(song_names, links_youtubeinmp3, path):
                 with open(filename, "wb") as f:
                     f.write(data.read())
 
-
 def progressive_downloader(song_names, path): #This function merges the link generator with the downloader.
+    retry_songs = []
+    retry_songs_number = 0
+    status_downloading()
     is_bbc = len(song_names)                  #I want to add a continue progress thing but mayb later
-    is_downloading = True
     for i in range(is_bbc):
         filename = path + song_names[i] + '.mp3'
         print_status(i, is_bbc)
         if not os.path.isfile(filename):
-            downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older versions i used to do this in 2 steps
+            downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older vercsions i used to do this in 2 steps
             statinfo = os.stat(filename)
             #random im not a direct link anymore bullshic bypass
-            timeout = 0
-            while statinfo.st_size < 1000000 and timeout < 10: #Sometimes youtubeinmp3 has the wonderfull idea of changing direct links to randomnn webpages
+            retry = 0
+            while statinfo.st_size < 1000000 and retry < 10: #Sometimes youtubeinmp3 has the wonderfull idea of changing direct links to randomnn webpages
                 #time.sleep(5)
                 print('Redownloading: ' + song_names[i])
                 os.remove(filename)
-                timeout += 1
+                retry += 1
                 downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older versions i used to do this in 2 steps
                 statinfo = os.stat(filename)
-            if timeout == 10:
+            if retry == 10:
                 os.remove(filename)
-                print('No se pudo descargar: ' + song_names[i])
-    status_patience()
-    app.infoBox("Descarga completada !", "Se completó la descarga con éxito")
+                #Here  I want to store the lost songs name and their link to youtubeinmp3
+                retry_songs.append([song_names[i], yt_in_mp3_generator([song_names[i]])])
+                retry_songs_number+=1
 
-app = gui()
-app.setIcon("icon.gif")
-app.setResizable(canResize=False)
-app.setTitle('Spotifyt - by Luastan')
-app.setGuiPadding(0,0)
-app.setFont(15, font="Oswald")
-app.setBg('black')
-app.addImage("title", "title_low.gif",0,0,2)
-app.addMeter("progress",1,0,2)
-app.hideMeter("progress")
-app.setMeterBg("progress","black")
-app.setMeterPadding("progress", 0, 0)
-app.setMeterFill("progress", "purple")
-app.setMeterFg("progress", "white")
-app.addButton("Descargar !", hit_descarga, 1, 0)
-app.setButtonBg("Descargar !", 'black')
-app.setButtonSticky("Descargar !","both")
-app.setButtonFg("Descargar !", "white")
-app.go()
+    status_patience()
+
+    if retry_songs_number == 0:
+        syt.infoBox("Descarga completada !", "Se completó la descarga con éxito")
+    elif syt.yesNoBox("Descarga completada", "Alguna cancion no pudo descargarse correctamente desde youtubeinmp3. ¿Desea guardar los enlaces en un archivo de texto para intenter descargarlas manualmente?"):
+        text_recover_path = syt.saveBox(title = 'Guardar archivo', fileTypes=[('Archivos de texto','*.txt')])
+        with open(text_recover_path, 'a') as unfortunate_file:
+            for i in range(retry_songs_number):
+                unfortunate_file.write(retry_songs[i][0] + '\n' + retry_songs[i][1][0] + '\n')
+
+
+
+syt = gui()
+syt.setIcon("icon.gif")
+syt.setResizable(canResize=False)
+syt.setTitle('Spotifyt - by Luastan')
+syt.setGuiPadding(0,0)
+syt.setFont(15, font="Oswald")
+syt.setBg('black')
+syt.addImage("title", "title_low.gif",0,0,2)
+syt.addMeter("progress",1,0,2)
+syt.hideMeter("progress")
+syt.setMeterBg("progress","black")
+syt.setMeterPadding("progress", 0, 0)
+syt.setMeterFill("progress", "purple")
+syt.setMeterFg("progress", "white")
+syt.addButton("Descargar !", hit_descarga, 1, 0)
+syt.setButtonBg("Descargar !", 'black')
+syt.setButtonSticky("Descargar !","both")
+syt.setButtonFg("Descargar !", "white")
+syt.infoBox('Guia de uso', 'Abre Spotify y copia el enlace de la playlist que quieres descargar')
+is_updated()
+syt.go()
+#pan
+
 
 
 if __name__ ==" __main__":
-
-    print('pene')
-    azul = 1+1
-
-
-
-#pan
+    print('Gui should be showing =)')
