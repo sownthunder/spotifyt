@@ -1,6 +1,6 @@
 ![intro](http://i.imgur.com/pb1sEG6.gif)
 
-# Spotifyt 0.4
+# Spotifyt 0.04
 #### *Download songs from your Spotify playlists*
 
 > **Spotifyt** will search and download all the songs in a Spotify playlist in MP3 format with Album covers and other Metadata. It's fast and really easy to use. Also, Spotifyt is not resource heavy so, you can leave it running in the background while you do other stuff. 
