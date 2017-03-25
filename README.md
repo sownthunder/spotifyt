@@ -14,7 +14,7 @@ Given a playlist, Spotifyt gets the name from all of the songs in your list, to 
 Spotifyt is really easy to use:
 
 1. Launch Spotifyt.
-2. Copy the desired playlist URI (You can find this as one of your options to share the playlist).
+2. Copy the desired playlist link. It supports either the URI or the open.spotify direct link. (You can find them as options to share your playlist)
 3. Cick Download ! (Spotifyt will grab the link you copied).
 4. Choose a Folder(Directory) to store your songs.
 5. Wait for the download to finish and enjoy ;) .
@@ -32,7 +32,7 @@ You should be able to run the code in every Unix based OS(such as linux), window
 The portable version requires nothing but an updated win vista/7/8/8.1/10 system. To run the code use pip to install the required libraries: `pip install -r requirements.txt`
 
 #### Why it didn't download all my playlist songs? 
-There's a small chance where Spotifyt won't be able to retrieve MP3 files from YoutubeInMp3, in those cases the program will retry downloading the file a few times. After 10 failed attempts to download a song, It will be skipped.
+There's a small chance where Spotifyt won't be able to retrieve MP3 files from YoutubeInMp3, in those cases the program will retry downloading the file a few times. After 10 failed attempts to download a song, It will be skipped and at the end of the downloads you will be asked if you want to save a file with the links Spotifyt was unable to download.
 
 #### Is it legal ?
 By respecting YoutubeInMp3's [Terms of Service](https://www.youtubeinmp3.com/tos/) while using Spotifyt, you should be good.
