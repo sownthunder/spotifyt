@@ -24,7 +24,7 @@ wrong_link = False
 
 def is_updated():
     readme_gh = requests.get('https://raw.githubusercontent.com/luastan/spotifyt/master/README.md')
-    if not readme_gh.text[53:59] == '0.6.01':
+    if not readme_gh.text[53:59] == '0.6.02':
         if syt.okBox('New Version', "There's a new version available. Would you like to download it?"):
             webbrowser.open_new_tab('https://github.com/luastan/spotifyt/releases')
             sys.exit(0)
@@ -149,28 +149,31 @@ def progressive_downloader(song_names, path): #This function merges the link gen
     retry_songs_number = 0
     status_downloading()
     is_bbc = len(song_names)                  #I want to add a continue progress thing but mayb later
-    for i in range(is_bbc):
-        filename = path + song_names[i] + '.mp3'
-        print_status(i, is_bbc)
-        if not os.path.isfile(filename):
-            #print(song_names[i])
-            downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older vercsions i used to do this in 2 steps
-            statinfo = os.stat(filename)
-            #random im not a direct link anymore bullshic bypass
-            retry = 0
-            while statinfo.st_size < 1000000 and retry < 10: #Sometimes youtubeinmp3 has the wonderfull idea of changing direct links to randomnn webpages
-                #time.sleep(5)
-                print('Redownloading: ' + song_names[i])
-                os.remove(filename)
-                retry += 1
-                downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older versions i used to do this in 2 steps
+    try:
+        for i in range(is_bbc):
+            filename = path + song_names[i] + '.mp3'
+            print_status(i, is_bbc)
+            if not os.path.isfile(filename):
+                #print(song_names[i])
+                downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older vercsions i used to do this in 2 steps
                 statinfo = os.stat(filename)
-            if retry == 10:
-                os.remove(filename)
-                #Here  I want to store the lost songs name and their link to youtubeinmp3
-                retry_songs.append([song_names[i], yt_in_mp3_generator([song_names[i]])])
-                retry_songs_number+=1
+                #random im not a direct link anymore bullshic bypass
+                retry = 0
+                while statinfo.st_size < 1000000 and retry < 10: #Sometimes youtubeinmp3 has the wonderfull idea of changing direct links to randomnn webpages
+                    #time.sleep(5)
+                    print('Redownloading: ' + song_names[i])
+                    os.remove(filename)
+                    retry += 1
+                    downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older versions i used to do this in 2 steps
+                    statinfo = os.stat(filename)
+                if retry == 10:
+                    os.remove(filename)
+                    #Here  I want to store the lost songs name and their link to youtubeinmp3
+                    retry_songs.append([song_names[i], yt_in_mp3_generator([song_names[i]])])
+                    retry_songs_number+=1
+    except:
 
+        pass
     status_patience()
 
     if retry_songs_number == 0:
