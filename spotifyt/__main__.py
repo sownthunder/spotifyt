@@ -24,7 +24,7 @@ wrong_link = False
 
 def is_updated():
     readme_gh = requests.get('https://raw.githubusercontent.com/luastan/spotifyt/master/README.md')
-    if not readme_gh.text[53:59] == '0.6.02':
+    if not readme_gh.text[53:59] == '0.6.03':
         if syt.okBox('New Version', "There's a new version available. Would you like to download it?"):
             webbrowser.open_new_tab('https://github.com/luastan/spotifyt/releases')
             sys.exit(0)
@@ -108,6 +108,8 @@ def humanizer(results):
         conjunto = conjunto.replace("/",'')
         conjunto = conjunto.replace("\\",'')
         conjunto = conjunto.replace('"','')
+        conjunto = conjunto.replace("\\",'')
+        conjunto = conjunto.replace("''",'')
         canciones.append(conjunto)
         #
     return canciones
@@ -149,10 +151,11 @@ def progressive_downloader(song_names, path): #This function merges the link gen
     retry_songs_number = 0
     status_downloading()
     is_bbc = len(song_names)                  #I want to add a continue progress thing but mayb later
-    try:
-        for i in range(is_bbc):
-            filename = path + song_names[i] + '.mp3'
-            print_status(i, is_bbc)
+
+    for i in range(is_bbc):
+        filename = path + song_names[i] + '.mp3'
+        print_status(i, is_bbc)
+        try:
             if not os.path.isfile(filename):
                 #print(song_names[i])
                 downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older vercsions i used to do this in 2 steps
@@ -171,9 +174,9 @@ def progressive_downloader(song_names, path): #This function merges the link gen
                     #Here  I want to store the lost songs name and their link to youtubeinmp3
                     retry_songs.append([song_names[i], yt_in_mp3_generator([song_names[i]])])
                     retry_songs_number+=1
-    except:
+        except:
+            pass
 
-        pass
     status_patience()
 
     if retry_songs_number == 0:
