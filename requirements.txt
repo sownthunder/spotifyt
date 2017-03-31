@@ -1,4 +1,0 @@
-appJar
-requests
-spotipy
-tqdm
