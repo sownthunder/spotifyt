@@ -9,6 +9,8 @@
 ### How does it work ?
 Given a playlist, Spotifyt gets the name from all of the songs in your list, to search every single one in youtube and download it from [YoutubeInMp3](https://www.youtubeinmp3.com/). This means you should keep in mind YoutubeInMp3's [Terms of Service](https://www.youtubeinmp3.com/tos/) while using my program. 
 
+Spotifyt is very efficient. If It finds out that a song has already been fully downloaded, it won't wonload it again, so if you stop the program before finishing downloading, next time you try to download the same playlist, Spotifyt will continue where it stopped.
+
 
 # How to use ?
 Spotifyt is really easy to use:
