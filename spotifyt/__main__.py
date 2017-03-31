@@ -24,7 +24,7 @@ wrong_link = False
 
 def is_updated():
     readme_gh = requests.get('http://raw.githubusercontent.com/luastan/spotifyt/master/README.md')
-    if not readme_gh.text[53:59] == '0.6.04':
+    if not readme_gh.text[53:59] == '0.6.05':
         if syt.okBox('New Version', "There's a new version available. Would you like to download it?"):
             webbrowser.open_new_tab('https://github.com/luastan/spotifyt/releases')
             sys.exit(0)
@@ -65,7 +65,7 @@ def status_patience():
 #Retieves data from spotify playlist given playlist id & user witch comes form uri
 def get_playlist_tracks(uri):
     #Spotify api auth
-    client_credentials_manager = SpotifyClientCredentials("", "")
+    client_credentials_manager = SpotifyClientCredentials("2e51cd035c754f138d0a18b72e69d2b3", "c242f72478c84e4aac07018307780905")
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     #Username and id 2jcA2rX8MNpUtDQ5EX8nPw
@@ -109,7 +109,7 @@ def humanizer(results):
         conjunto = conjunto.replace("\\",'')
         conjunto = conjunto.replace('"','')
         conjunto = conjunto.replace("\\",'')
-        conjunto = conjunto.replace("''",'')
+        conjunto = conjunto.replace("'",'')
         canciones.append(conjunto)
         #
     return canciones
@@ -165,7 +165,6 @@ def progressive_downloader(song_names, path): #This function merges the link gen
                 while statinfo.st_size < 1000000 and retry < 10: #Sometimes youtubeinmp3 has the wonderfull idea of changing direct links to randomnn webpages
                     #time.sleep(5)
                     print('Redownloading: ' + song_names[i])
-                    wonder()
                     os.remove(filename)
                     retry += 1
                     downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older versions i used to do this in 2 steps
@@ -175,9 +174,7 @@ def progressive_downloader(song_names, path): #This function merges the link gen
                     #Here  I want to store the lost songs name and their link to youtubeinmp3
                     retry_songs.append([song_names[i], yt_in_mp3_generator([song_names[i]])])
                     retry_songs_number+=1
-            raise NameError
-        except Exception as error:
-            print(error)
+        except:
             pass
 
     status_patience()
