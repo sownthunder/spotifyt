@@ -1,3 +1,6 @@
+from spotipy.oauth2 import SpotifyClientCredentials
+from tqdm import tqdm
+from appJar import gui
 from threading import Thread
 
 import requests
