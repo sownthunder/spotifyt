@@ -1,6 +1,3 @@
-from spotipy.oauth2 import SpotifyClientCredentials
-from tqdm import tqdm
-from appJar import gui
 from threading import Thread
 
 import requests
@@ -23,8 +20,8 @@ retry_songs = []
 wrong_link = False
 
 def is_updated():
-    readme_gh = requests.get('https://raw.githubusercontent.com/luastan/spotifyt/master/README.md')
-    if not readme_gh.text[53:59] == '0.6.03':
+    readme_gh = requests.get('http://raw.githubusercontent.com/luastan/spotifyt/master/README.md')
+    if not readme_gh.text[53:59] == '0.6.04':
         if syt.okBox('New Version', "There's a new version available. Would you like to download it?"):
             webbrowser.open_new_tab('https://github.com/luastan/spotifyt/releases')
             sys.exit(0)
@@ -130,9 +127,9 @@ def yt_in_mp3_generator(canciones):
         html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
         enlasitos = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
         try:
-            links.append("https://www.youtubeinmp3.com/fetch/?video=https://www.youtube.com/watch?v=" + enlasitos[0])
+            links.append("http://www.youtubeinmp3.com/fetch/?video=http://www.youtube.com/watch?v=" + enlasitos[0])
         except :
-            links.append("https://www.youtubeinmp3.com/fetch/?video=https://www.youtube.com/watch?v=" + canciones[i].split(' ')[0])
+            links.append("http://www.youtubeinmp3.com/fetch/?video=http://www.youtube.com/watch?v=" + canciones[i].split(' ')[0])
 
     return links
 
@@ -165,6 +162,7 @@ def progressive_downloader(song_names, path): #This function merges the link gen
                 while statinfo.st_size < 1000000 and retry < 10: #Sometimes youtubeinmp3 has the wonderfull idea of changing direct links to randomnn webpages
                     #time.sleep(5)
                     print('Redownloading: ' + song_names[i])
+                    wonder()
                     os.remove(filename)
                     retry += 1
                     downloader([song_names[i]], yt_in_mp3_generator([song_names[i]]), path) #In older versions i used to do this in 2 steps
@@ -174,7 +172,9 @@ def progressive_downloader(song_names, path): #This function merges the link gen
                     #Here  I want to store the lost songs name and their link to youtubeinmp3
                     retry_songs.append([song_names[i], yt_in_mp3_generator([song_names[i]])])
                     retry_songs_number+=1
-        except:
+            raise NameError
+        except Exception as error:
+            print(error)
             pass
 
     status_patience()
