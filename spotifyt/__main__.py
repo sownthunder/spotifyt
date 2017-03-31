@@ -1,3 +1,5 @@
+#imports
+
 from spotipy.oauth2 import SpotifyClientCredentials
 from tqdm import tqdm
 from appJar import gui
