@@ -25,7 +25,7 @@ Spotifyt is really easy to use:
 # How to download and install Spotifyt ?
 Download the latest portable release for windows (x64 bit) from the [releases page](https://github.com/luastan/spotifyt/releases). This executable file is portable so you just have to download and run it.
 
-If you want to run the code by yourself, you will need python 3 with a bunch of libraries ([check imports](https://github.com/luastan/spotifyt/blob/master/spotifyt/__main__.py#L7))
+If you want to run the code by yourself, you will need python 3 with a bunch of libraries ([check imports](https://open.spotify.com/user/luastan/playlist/2jcA2rX8MNpUtDQ5EX8nPw))
 
 
 # FAQ
@@ -33,7 +33,7 @@ If you want to run the code by yourself, you will need python 3 with a bunch of 
 You should be able to run the code in every Unix based OS(such as linux), windows or mac. The portable version is only available for windows tho. I'm pretty sure you can make it run on some python environments for Android and iOS without so much effort.
 
 #### Does it require extra software to work ?
-The portable version requires nothing but an updated win vista/7/8/8.1/10 system. To run the code use pip to install the required libraries that It [imports](https://github.com/luastan/spotifyt/blob/master/spotifyt/__main__.py#L7). Also the code is not gonna work unless you place your Spotify developer credentials [here](https://github.com/luastan/spotifyt/blob/master/spotifyt/__main__.py#L68). Get your credentials in the [Spotify Developer webpage](https://developer.spotify.com/)
+The portable version requires nothing but an updated win vista/7/8/8.1/10 system. To run the code use pip to install the required libraries that It [imports](https://open.spotify.com/user/luastan/playlist/2jcA2rX8MNpUtDQ5EX8nPw). Also the code is not gonna work unless you place your Spotify developer credentials [here](https://github.com/luastan/spotifyt/blob/master/spotifyt/__main__.py#L68). Get your credentials in the [Spotify Developer webpage](https://developer.spotify.com/)
 
 #### Why it didn't download all my playlist songs? 
 There's a small chance where Spotifyt won't be able to retrieve MP3 files from YoutubeInMp3, in those cases the program will retry downloading the file a few times. After 10 failed attempts to download a song, It will be skipped and at the end of the downloads you will be asked if you want to save a file with the links Spotifyt was unable to download.
