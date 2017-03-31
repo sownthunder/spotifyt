@@ -11,6 +11,8 @@ Given a playlist, Spotifyt gets the name from all of the songs in your list, to 
 
 Spotifyt is very efficient. If It finds out that a song has already been fully downloaded, it won't wonload it again, so if you stop the program before finishing downloading, next time you try to download the same playlist, Spotifyt will continue where it stopped.
 
+Whenever an update is available, Spotifyt will get u to know by showing a message before starting the program. I highly suggest to download the newer versions, because they migth fix bugs that prevent songs from being downloaded propperly.
+
 
 # How to use ?
 Spotifyt is really easy to use:
