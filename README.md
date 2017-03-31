@@ -42,7 +42,7 @@ There's a small chance where Spotifyt won't be able to retrieve MP3 files from Y
 By respecting YoutubeInMp3's [Terms of Service](https://www.youtubeinmp3.com/tos/) while using Spotifyt, you should be good.
 
 #### Does it have malicious code ?
-No. Also it has no privative code so you can read it all and make your own conclusions lol.
+No. It also has no privative code so you can read it all and make your own conclusions lol.
 
 
 # License
