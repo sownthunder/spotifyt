@@ -18,7 +18,7 @@ Whenever an update is available, Spotifyt will get u to know by showing a messag
 Spotifyt is really easy to use:
 
 1. Launch Spotifyt.
-2. Copy the desired playlist link. It supports either the URI or the open.spotify direct link. (You can find them as options to share your playlist)
+2. Copy the desired playlist link. (You can find it as options to share your playlist)
 3. Cick Download ! (Spotifyt will grab the link you copied).
 4. Choose a Folder(Directory) to store your songs.
 5. Wait for the download to finish and enjoy ;) .
