@@ -27,8 +27,6 @@ Spotifyt is really easy to use:
 # How to download and install Spotifyt ?
 Download the latest portable release for windows (x64 bit) from the [releases page](https://github.com/luastan/spotifyt/releases). This executable file is portable so you just have to download and run it.
 
-If you want to run the code by yourself, you will need python 3 with a bunch of libraries ([check imports](https://open.spotify.com/user/luastan/playlist/2jcA2rX8MNpUtDQ5EX8nPw))
-
 
 # FAQ
 #### Does it work in Linux, Mac Os.... ?
