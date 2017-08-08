@@ -44,12 +44,13 @@ The portable version requires nothing but an updated win vista/7/8/8.1/10 system
 #### Why it didn't download all my playlist songs? 
 There's a small chance where Spotifyt won't be able to retrieve MP3 files from YoutubeInMp3, in those cases the program will retry downloading the file a few times. After 10 failed attempts to download a song, It will be skipped and at the end of the downloads you will be asked if you want to save a file with the links Spotifyt was unable to download.
 
-#### Is it legal ?
-By respecting YoutubeInMp3's [Terms of Service](https://www.youtubeinmp3.com/tos/) while using Spotifyt, you should be good.
-
 #### Does it have malicious code ?
 No. It also has no privative code so you can read it all and make your own conclusions lol.
 
+
+
+# !
+I'm not ressponsible for the use of Spotifyt. I made it as a fun project to learn python, and I personally don't use it. Downloading videos from youtube violates their terms of service. Using Spotifyt to download mostly copyrighted material in bulk is ilegal. 
 
 # License
 
