@@ -25,7 +25,7 @@ songs_to_dl =[]
 
 def is_updated():
     readme_gh = requests.get('http://raw.githubusercontent.com/luastan/spotifyt/master/README.md')
-    if not readme_gh.text[53:59] == '0.6.05':
+    if not readme_gh.text[53:59] == '0.7.01':
         if syt.okBox('New Version', "There's a new version available. Would you like to download it?"):
             webbrowser.open_new_tab('https://github.com/luastan/spotifyt/releases')
             sys.exit(0)
