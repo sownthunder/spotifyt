@@ -38,7 +38,7 @@ Whenever an update is available, Spotifyt will get u to know by showing a messag
 You should be able to run the code in every Unix based OS(such as linux), windows or mac. The portable version is only available for windows tho. I'm pretty sure you can make it run on some python environments for Android and iOS without so much effort.
 
 #### Does it require extra software to work ?
-The portable version requires nothing but an updated win vista/7/8/8.1/10 system. To run the code directly use pip to install the required libraries `python3 -m pip install -r requirements.txt`. ffmpeg is needed too. Also the code is not gonna work unless you place your Spotify developer credentials [here](https://github.com/luastan/spotifyt/blob/master/spotifyt/__main__.py#L68). Get your credentials in the [Spotify Developer webpage](https://developer.spotify.com/)
+The portable version requires nothing but an updated win vista/7/8/8.1/10 system. To run the code directly use pip to install the required libraries `python3 -m pip install -r requirements.txt`. ffmpeg is needed too. Also the code is not gonna work unless you place your Spotify developer credentials [here](https://github.com/luastan/spotifyt/blob/master/spotifyt/__main__.py#L154). Get your credentials in the [Spotify Developer webpage](https://developer.spotify.com/)
 
 
 
