@@ -1,6 +1,6 @@
 ![intro](http://i.imgur.com/pb1sEG6.gif)
 
-# Spotifyt 0.7.01
+# Spotifyt 0.8
 #### *Download songs from your Spotify playlists*
 
 > **Spotifyt** will search and download all the songs in a Spotify playlist in MP3 format with Album covers. It's fast and really easy to use.
