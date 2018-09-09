@@ -10,14 +10,14 @@ Given a playlist, Spotifyt gets the name from all of the songs in your list, to 
 
 # How to download and install Spotifyt ?
 ### 1. Clone the repository
-`git clone https://github.com/luastan/spotifyt.git`
+* `git clone https://github.com/luastan/spotifyt.git`
 ### 2. cd into the cloned repository and run the setup utility (you might need to be a super user for this)
-`cd spotifyt`
-`sudo python3 setup.py install`
+* `cd spotifyt`
+* `sudo python3 setup.py install`
 ### 3. Install FFMPEG with your favourite package manager
-**Debian/Ubuntu:** `sudo apt-get install ffmpeg`
-**Arch Linux:** `sudo pacman -Ss ffmpeg`
-**Fedora/Suse/RedHat...:** `sudo yum install ffmpeg`
+* **Debian/Ubuntu:** `sudo apt-get install ffmpeg`
+* **Arch Linux:** `sudo pacman -Ss ffmpeg`
+* **Fedora/Suse/RedHat...:** `sudo yum install ffmpeg`
 
 # Usage:
 **Print help with:** `python3 -m spotifyt -h`
