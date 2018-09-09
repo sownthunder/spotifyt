@@ -4,4 +4,4 @@ idna==2.7
 requests==2.19.1
 spotipy==2.4.4
 urllib3==1.23
-youtube-dl==2018.8.4
+youtube-dl==2018.9.8
