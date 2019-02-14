@@ -20,7 +20,7 @@ Given a playlist, Spotifyt gets the name from all of the songs in your list, to 
 * **Fedora/Suse/RedHat...:** `sudo yum install ffmpeg`
 
 # Usage:
-**Print help with:** `python3 -m spotifyt -h`
+**Print help with:** `spotifyt -h`
 
 **Usage output:**
 ´usage: spotifyt [-h] [-d [DIRECTORY]] [-k] [--version]

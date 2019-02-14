@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
 
+from os import system
+from sys import platform
 from setuptools import setup
+
+def addToBin():
+  f = open('/bin/spotifyt', 'w')
+  print('python3 -m spotifyt -h', file=f)
+  f.close()
+  system("chmod +x /bin/spotifyt")
+
 
 setup(name='spotifyt',
       version='0.8',
@@ -17,3 +26,6 @@ setup(name='spotifyt',
         'spotipy==2.4.4',
         ],
       )
+
+if platform == 'linux' or platform == 'linux32':
+  addToBin()
